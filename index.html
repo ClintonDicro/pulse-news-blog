@@ -1,386 +1,375 @@
 <!DOCTYPE html>
-  <html lang="en">
+<html lang="en">
   <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pulse — Live News Blog</title>
-  <meta name="description" content="Pulse: a modern, auto-updating news blog covering all categories, refreshed every 5 minutes.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pulse — Live News Blog</title>
+  <meta name="description" content="Pulse: a modern news blog covering all categories.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
   <style>
-    :root{
-      --bg:#0b0d12;
-    --bg-soft:#12151c;
-    --card:#161a23;
-    --card-hover:#1c212c;
-    --border:#242a36;
-    --text:#eef1f7;
-          --text-dim:#9aa4b8;
-    --accent:#6d6cff;
-    --accent2:#ff5fa2;
-          --accent3:#28d9c5;
-    --shadow: 0 8px 30px rgba(0,0,0,0.35);
-}
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html{scroll-behavior:smooth;}
-  body{
-        background:
-          radial-gradient(1200px 600px at 10% -10%, rgba(109,108,255,0.20), transparent 60%),
-          radial-gradient(1000px 500px at 100% 0%, rgba(255,95,162,0.14), transparent 55%),
-          var(--bg);
-    color:var(--text);
-    font-family:'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
-    min-height:100vh;
-    -webkit-font-smoothing:antialiased;
-}
-  a{color:inherit;text-decoration:none;}
-
-  /* Header */
-  header{
-        position:sticky;top:0;z-index:50;
-    backdrop-filter:blur(14px);
-    background:rgba(11,13,18,0.72);
-    border-bottom:1px solid var(--border);
-}
-  .header-inner{
-        max-width:1200px;margin:0 auto;padding:16px 24px;
-    display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
-}
-  .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-0.5px;}
-  .brand .dot{
-    width:12px;height:12px;border-radius:50%;
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-    box-shadow:0 0 14px rgba(109,108,255,0.8);
-    animation:pulse 2s infinite;
-}
-  @keyframes pulse{
-        0%{transform:scale(1);opacity:1;}
-        50%{transform:scale(1.35);opacity:0.6;}
-    100%{transform:scale(1);opacity:1;}
-}
-  .status{
-    display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-dim);
-}
-  .live-badge{
-        display:flex;align-items:center;gap:6px;
-    background:rgba(40,217,197,0.12);
-    color:var(--accent3);
-    border:1px solid rgba(40,217,197,0.35);
-    padding:5px 10px;border-radius:999px;font-weight:700;font-size:12px;letter-spacing:0.4px;
-}
-  .live-badge .ring{
-    width:7px;height:7px;border-radius:50%;background:var(--accent3);
-    box-shadow:0 0 8px var(--accent3);
-    animation:pulse 1.4s infinite;
-    }
-      #refresh-btn{
-    background:var(--card);border:1px solid var(--border);color:var(--text);
-        padding:7px 14px;border-radius:10px;font-size:13px;cursor:pointer;font-weight:600;
-    transition:all .2s ease;
-}
-  #refresh-btn:hover{background:var(--card-hover);border-color:var(--accent);}
-
-  /* Hero */
-        .hero{max-width:1200px;margin:0 auto;padding:56px 24px 28px;}
-  .hero h1{
-        font-size:clamp(32px,5vw,52px);
-    font-weight:800;letter-spacing:-1.5px;line-height:1.05;
-    background:linear-gradient(120deg,#fff 20%,var(--accent) 55%,var(--accent2) 90%);
-    -webkit-background-clip:text;background-clip:text;color:transparent;
+      :root{
+            --bg:#0b0d12;
+            --bg-soft:#12151c;
+            --card:#161a23;
+            --card-hover:#1c212c;
+            --border:#242a36;
+            --text:#eef1f7;
+            --text-dim:#9aa4b8;
+            --accent:#6d6cff;
+            --accent2:#ff5fa2;
+            --accent3:#28d9c5;
+            --shadow: 0 8px 30px rgba(0,0,0,0.35);
       }
-  .hero p{margin-top:14px;color:var(--text-dim);font-size:16px;max-width:600px;line-height:1.6;}
+      *{box-sizing:border-box;margin:0;padding:0;}
+      html{scroll-behavior:smooth;overflow-x:hidden;width:100%;}
+      body{
+            width:100%;
+            overflow-x:hidden;
+            background:
+                    radial-gradient(1200px 600px at 10% -10%, rgba(109,108,255,0.20), transparent 60%),
+                    radial-gradient(1000px 500px at 100% 0%, rgba(255,95,162,0.14), transparent 55%),
+                    var(--bg);
+            color:var(--text);
+            font-family:'Segoe UI', system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+            min-height:100vh;
+            -webkit-font-smoothing:antialiased;
+      }
+      a{color:inherit;text-decoration:none;}
 
-  /* Category tabs */
-  .tabs{
-              max-width:1200px;margin:0 auto;padding:0 24px 10px;
-        display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;
-        }
-  .tabs::-webkit-scrollbar{display:none;}
-  .tab{
-    flex:0 0 auto;
-    background:var(--card);border:1px solid var(--border);color:var(--text-dim);
-    padding:9px 18px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;
-          transition:all .2s ease;white-space:nowrap;
-}
+      /* Header */
+      header{
+            position:sticky;top:0;z-index:50;
+            backdrop-filter:blur(14px);
+            background:rgba(11,13,18,0.72);
+            border-bottom:1px solid var(--border);
+      }
+      .header-inner{
+            max-width:1200px;margin:0 auto;padding:16px 24px;
+            display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;
+      }
+      .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-0.5px;}
+      .brand .dot{
+            width:12px;height:12px;border-radius:50%;
+            background:linear-gradient(135deg,var(--accent),var(--accent2));
+            box-shadow:0 0 14px rgba(109,108,255,0.8);
+            animation:pulse 2s infinite;
+      }
+      @keyframes pulse{
+            0%{transform:scale(1);opacity:1;}
+            50%{transform:scale(1.35);opacity:0.6;}
+            100%{transform:scale(1);opacity:1;}
+      }
+      .status{
+            display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-dim);
+      }
+      .live-badge{
+            display:flex;align-items:center;gap:6px;
+            background:rgba(40,217,197,0.12);
+            color:var(--accent3);
+            border:1px solid rgba(40,217,197,0.35);
+            padding:5px 10px;border-radius:999px;font-weight:700;font-size:12px;letter-spacing:0.4px;
+      }
+      .live-badge .ring{
+            width:7px;height:7px;border-radius:50%;background:var(--accent3);
+            box-shadow:0 0 8px var(--accent3);
+            animation:pulse 1.4s infinite;
+      }
+      /* Hero */
+      .hero{max-width:1200px;margin:0 auto;padding:56px 24px 28px;}
+      .hero h1{
+            font-size:clamp(32px,5vw,52px);
+            font-weight:800;letter-spacing:-1.5px;line-height:1.05;
+            background:linear-gradient(120deg,#fff 20%,var(--accent) 55%,var(--accent2) 90%);
+            -webkit-background-clip:text;background-clip:text;color:transparent;
+      }
+      .hero p{margin-top:14px;color:var(--text-dim);font-size:16px;max-width:600px;line-height:1.6;}
+
+      /* Category tabs */
+      .tabs{
+            max-width:1200px;margin:0 auto;padding:0 24px 10px;
+            display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;
+      }
+      .tabs::-webkit-scrollbar{display:none;}
+      .tab{
+            flex:0 0 auto;
+            background:var(--card);border:1px solid var(--border);color:var(--text-dim);
+            padding:9px 18px;border-radius:999px;font-size:14px;font-weight:600;cursor:pointer;
+            transition:all .2s ease;white-space:nowrap;
+      }
       .tab:hover{color:var(--text);border-color:var(--accent);}
-  .tab.active{
-    background:linear-gradient(135deg,var(--accent),var(--accent2));
-          color:#fff;border-color:transparent;box-shadow:0 4px 18px rgba(109,108,255,0.35);
-          }
+      .tab.active{
+            background:linear-gradient(135deg,var(--accent),var(--accent2));
+            color:#fff;border-color:transparent;box-shadow:0 4px 18px rgba(109,108,255,0.35);
+      }
 
-  /* Grid */
-  main{max-width:1200px;margin:0 auto;padding:20px 24px 80px;}
-  .updated-line{color:var(--text-dim);font-size:13px;margin:14px 0 22px;display:flex;align-items:center;gap:8px;}
-  .grid{
-        display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
-    gap:20px;
-    }
-  .card{
-        background:var(--card);border:1px solid var(--border);border-radius:16px;
-    overflow:hidden;display:flex;flex-direction:column;
-    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
-  }
-  .card:hover{
-        transform:translateY(-4px);
-    box-shadow:var(--shadow);
-    border-color:rgba(109,108,255,0.4);
-}
-  .card-thumb{
-        width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--bg-soft);
-    border-bottom:1px solid var(--border);
-}
-  .card-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1;}
-  .cat-pill{
-        align-self:flex-start;font-size:11px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;
-    padding:3px 9px;border-radius:6px;
-    background:rgba(109,108,255,0.15);color:#b3b2ff;
-    }
-  .card-title{font-size:16.5px;font-weight:700;line-height:1.35;letter-spacing:-0.2px;}
-  .card-desc{font-size:13.5px;color:var(--text-dim);line-height:1.5;flex:1;
-    display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
-  .card-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-dim);margin-top:4px;}
-  .card-meta .src{font-weight:700;color:var(--accent3);}
+      /* Grid */
+      main{max-width:1200px;margin:0 auto;padding:20px 24px 80px;width:100%;}
+      .updated-line{color:var(--text-dim);font-size:13px;margin:14px 0 22px;display:flex;align-items:center;gap:8px;}
+      .grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+            gap:20px;
+            width:100%;
+      }
+      .card{
+            background:var(--card);border:1px solid var(--border);border-radius:16px;
+            overflow:hidden;display:flex;flex-direction:column;
+            transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      }
+      .card:hover{
+            transform:translateY(-4px);
+            box-shadow:var(--shadow);
+            border-color:rgba(109,108,255,0.4);
+      }
+      .card-thumb{
+            width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--bg-soft);
+            border-bottom:1px solid var(--border);
+      }
+      .card-body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1;}
+      .cat-pill{
+            align-self:flex-start;font-size:11px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;
+            padding:3px 9px;border-radius:6px;
+            background:rgba(109,108,255,0.15);color:#b3b2ff;
+      }
+      .card-title{font-size:16.5px;font-weight:700;line-height:1.35;letter-spacing:-0.2px;}
+      .card-desc{font-size:13.5px;color:var(--text-dim);line-height:1.5;flex:1;
+                     display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+      .card-meta{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--text-dim);margin-top:4px;}
+      .card-meta .src{font-weight:700;color:var(--accent3);}
 
-  .skeleton{
-        background:var(--card);border:1px solid var(--border);border-radius:16px;height:340px;
-    position:relative;overflow:hidden;
-  }
-  .skeleton::after{
-        content:"";position:absolute;inset:0;
-    background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);
-    animation:shimmer 1.4s infinite;
-}
-  @keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+      .skeleton{
+            background:var(--card);border:1px solid var(--border);border-radius:16px;height:340px;
+            position:relative;overflow:hidden;
+      }
+      .skeleton::after{
+            content:"";position:absolute;inset:0;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,0.05),transparent);
+            animation:shimmer 1.4s infinite;
+      }
+      @keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
 
-  .empty, .error-box{
-        text-align:center;color:var(--text-dim);padding:60px 20px;
-}
+      .empty, .error-box{
+            text-align:center;color:var(--text-dim);padding:60px 20px;
+      }
 
-  footer{
-        border-top:1px solid var(--border);padding:26px 24px;text-align:center;
-    color:var(--text-dim);font-size:13px;
-}
-  footer span{color:var(--accent3);font-weight:700;}
+      footer{
+            border-top:1px solid var(--border);padding:26px 24px;text-align:center;
+            color:var(--text-dim);font-size:13px;
+      }
+      footer span{color:var(--accent3);font-weight:700;}
 
-  @media (max-width:520px){
-    .header-inner{padding:14px 16px;}
-    .hero{padding:36px 16px 18px;}
-    .tabs{padding:0 16px 8px;}
-    main{padding:16px 16px 60px;}
-}
-</style>
+      @media (max-width:520px){
+            .header-inner{padding:14px 16px;}
+            .hero{padding:36px 16px 18px;}
+            .tabs{padding:0 16px 8px;}
+            main{padding:16px 16px 60px;}
+      }
+    </style>
   </head>
   <body>
 
-  <header>
-    <div class="header-inner">
-      <div class="brand"><span class="dot"></span> Pulse</div>
-      <div class="status">
-        <span class="live-badge"><span class="ring"></span> LIVE · Auto-refresh 5m</span>
-        <button id="refresh-btn">↻ Refresh now</button>
-      </div>
-    </div>
-  </header>
+    <header>
+        <div class="header-inner">
+              <div class="brand"><span class="dot"></span>span> Pulse</div>div>
+              <div class="status">
+                      <span class="live-badge"><span class="ring"></span>span> LIVE</span>span>
+              </div>div>
+        </div>div>
+    </header>
 
-  <section class="hero">
-    <h1>Everything that's happening,<br>right now.</h1>
-    <p>Pulse pulls the latest headlines across every major category — world, business, tech, science, health, entertainment and sport — and refreshes automatically every 5 minutes.</p>
-  </section>
-
-  <nav class="tabs" id="tabs"></nav>
-
+    <section class="hero">
+        <h1>Everything that's happening,<br>right now.</h1>
+      <p>Pulse pulls the latest headlines across every major category — world, business, tech, science, health, entertainment and sport.</p>
+    </section>section>
+  
+  <nav class="tabs" id="tabs"></nav>nav>
+  
   <main>
-    <div class="updated-line" id="updated-line">Loading latest headlines…</div>
-  <div class="grid" id="grid"></div>
-</main>
+      <div class="updated-line" id="updated-line">Loading latest headlines…</div>div>
+      <div class="grid" id="grid"></div>div>
+  </main>
 
-<footer>
-  Built with <span>Pulse</span> · News via public RSS feeds · Auto-refreshing every 5 minutes
-</footer>
+    <footer>
+        Built with <span>Pulse</span> · News via public RSS feeds
+    </footer>
+  
+  <script>
+    (function(){
+        const CATEGORIES = [
+          { id: "top",   label: "Top Stories",  color:"#6d6cff", feed: "http://feeds.bbci.co.uk/news/rss.xml" },
+          { id: "world", label: "World",        color:"#6d6cff", feed: "http://feeds.bbci.co.uk/news/world/rss.xml" },
+          { id: "business", label: "Business",  color:"#28d9c5", feed: "http://feeds.bbci.co.uk/news/business/rss.xml" },
+          { id: "tech",  label: "Technology",   color:"#ff5fa2", feed: "http://feeds.bbci.co.uk/news/technology/rss.xml" },
+          { id: "science", label: "Science",    color:"#28d9c5", feed: "http://feeds.bbci.co.uk/news/science_and_environment/rss.xml" },
+          { id: "health", label: "Health",      color:"#ff5fa2", feed: "http://feeds.bbci.co.uk/news/health/rss.xml" },
+          { id: "entertainment", label: "Entertainment", color:"#6d6cff", feed: "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml" },
+          { id: "sport", label: "Sport",        color:"#28d9c5", feed: "http://feeds.bbci.co.uk/sport/rss.xml" },
+            ];
 
-<script>
-(function(){
-    const CATEGORIES = [
-{ id: "top",   label: "Top Stories",  color:"#6d6cff", feed: "http://feeds.bbci.co.uk/news/rss.xml" },
-{ id: "world", label: "World",        color:"#6d6cff", feed: "http://feeds.bbci.co.uk/news/world/rss.xml" },
-{ id: "business", label: "Business",  color:"#28d9c5", feed: "http://feeds.bbci.co.uk/news/business/rss.xml" },
-{ id: "tech",  label: "Technology",   color:"#ff5fa2", feed: "http://feeds.bbci.co.uk/news/technology/rss.xml" },
-{ id: "science", label: "Science",    color:"#28d9c5", feed: "http://feeds.bbci.co.uk/news/science_and_environment/rss.xml" },
-{ id: "health", label: "Health",      color:"#ff5fa2", feed: "http://feeds.bbci.co.uk/news/health/rss.xml" },
-{ id: "entertainment", label: "Entertainment", color:"#6d6cff", feed: "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml" },
-{ id: "sport", label: "Sport",        color:"#28d9c5", feed: "http://feeds.bbci.co.uk/sport/rss.xml" },
-  ];
+        const API = (feedUrl) => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
+        const REFRESH_MS = 5 * 60 * 1000; // 5 minutes
 
-  const API = (feedUrl) => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
-  const REFRESH_MS = 5 * 60 * 1000; // 5 minutes
+        let activeCat = "top";
+        let cache = {}; // id -> {items, ts}
 
-  let activeCat = "top";
-  let cache = {}; // id -> {items, ts}
+        const tabsEl = document.getElementById("tabs");
+        const gridEl = document.getElementById("grid");
+        const updatedLineEl = document.getElementById("updated-line");
 
-  const tabsEl = document.getElementById("tabs");
-  const gridEl = document.getElementById("grid");
-  const updatedLineEl = document.getElementById("updated-line");
-  const refreshBtn = document.getElementById("refresh-btn");
-
-  function renderTabs(){
-        tabsEl.innerHTML = "";
-    CATEGORIES.forEach(cat => {
-            const btn = document.createElement("button");
-            btn.className = "tab" + (cat.id === activeCat ? " active" : "");
-      btn.textContent = cat.label;
-      btn.onclick = () => { activeCat = cat.id; renderTabs(); renderGrid(); };
-      tabsEl.appendChild(btn);
-});
-}
-
-  function skeletonGrid(n){
-        gridEl.innerHTML = "";
-    for(let i=0;i<n;i++){
-      const d = document.createElement("div");
-      d.className = "skeleton";
-      gridEl.appendChild(d);
-    }
-  }
-
-  function timeAgo(dateStr){
-        const d = new Date(dateStr);
-    if(isNaN(d)) return "";
-    const diffMs = Date.now() - d.getTime();
-    const mins = Math.floor(diffMs/60000);
-    if(mins < 1) return "just now";
-    if(mins < 60) return mins + "m ago";
-    const hrs = Math.floor(mins/60);
-    if(hrs < 24) return hrs + "h ago";
-    return Math.floor(hrs/24) + "d ago";
-  }
-
-  function firstImage(item){
-        if(item.thumbnail) return item.thumbnail;
-    if(item.enclosure && item.enclosure.link) return item.enclosure.link;
-    const match = (item.description||"").match(/<img[^>]+src="([^">]+)"/);
-          if(match) return match[1];
-          return "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=60&auto=format&fit=crop";
-      }
-
-  function stripHtml(html){
-        const tmp = document.createElement("div");
-    tmp.innerHTML = html || "";
-    return tmp.textContent || tmp.innerText || "";
-  }
-
-  function parseXmlToItems(xmlText){
-        const doc = new DOMParser().parseFromString(xmlText, "text/xml");
-    const nodes = Array.from(doc.querySelectorAll("item"));
-    return nodes.map(node => {
-            const get = (tag) => { const el = node.querySelector(tag); return el ? el.textContent : ""; };
-      const thumb = node.getElementsByTagNameNS("*","thumbnail")[0];
-      return {
-                title: get("title"),
-                description: get("description"),
-                link: get("link"),
-                pubDate: get("pubDate"),
-                author: "",
-                thumbnail: thumb ? thumb.getAttribute("url") : ""
-        };
-});
-}
-
-  async function fetchCategory(cat){
-        // Primary: rss2json (built for client-side CORS use)
-    try{
-      const res = await fetch(API(cat.feed));
-      if(res.ok){
-        const data = await res.json();
-        if(data.status === "ok" && data.items && data.items.length){
-          return data.items;
+        function renderTabs(){
+              tabsEl.innerHTML = "";
+              CATEGORIES.forEach(cat => {
+                      const btn = document.createElement("button");
+                      btn.className = "tab" + (cat.id === activeCat ? " active" : "");
+                      btn.textContent = cat.label;
+                      btn.onclick = () => { activeCat = cat.id; renderTabs(); renderGrid(); };
+                      tabsEl.appendChild(btn);
+              });
         }
-      }
-    }catch(e){ /* fall through to backup */ }
 
-    // Backup: codetabs CORS proxy + client-side XML parsing
-    const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(cat.feed)}`;
-    const res2 = await fetch(proxyUrl);
-    if(!res2.ok) throw new Error("Network error " + res2.status);
-    const xmlText = await res2.text();
-    const items = parseXmlToItems(xmlText);
-    if(!items.length) throw new Error("Feed error");
-    return items;
-  }
+        function skeletonGrid(n){
+              gridEl.innerHTML = "";
+              for(let i=0;i<n;i++){
+                      const d = document.createElement("div");
+                      d.className = "skeleton";
+                      gridEl.appendChild(d);
+              }
+        }
 
-  async function loadCategory(cat, force){
-    const now = Date.now();
-    if(!force && cache[cat.id] && (now - cache[cat.id].ts) < REFRESH_MS){
-      return cache[cat.id].items;
-    }
-    const items = await fetchCategory(cat);
-    cache[cat.id] = { items, ts: now };
-    return items;
-  }
+        function timeAgo(dateStr){
+              const d = new Date(dateStr);
+              if(isNaN(d)) return "";
+              const diffMs = Date.now() - d.getTime();
+              const mins = Math.floor(diffMs/60000);
+              if(mins < 1) return "just now";
+              if(mins < 60) return mins + "m ago";
+              const hrs = Math.floor(mins/60);
+              if(hrs < 24) return hrs + "h ago";
+              return Math.floor(hrs/24) + "d ago";
+        }
 
-  function renderCards(cat, items){
-        gridEl.innerHTML = "";
-    if(!items.length){
-      gridEl.innerHTML = `<div class="empty">No headlines available right now. Try refreshing.</div>`;
-      return;
-    }
-    items.slice(0, 24).forEach(item => {
-            const card = document.createElement("a");
-            card.className = "card";
-      card.href = item.link;
-      card.target = "_blank";
-      card.rel = "noopener noreferrer";
+        function firstImage(item){
+              if(item.thumbnail) return item.thumbnail;
+              if(item.enclosure && item.enclosure.link) return item.enclosure.link;
+              const match = (item.description||"").match(/<img[^>]+src="([^">]+)"/);
+              if(match) return match[1];
+              return "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=60&auto=format&fit=crop";
+        }
 
-      const img = document.createElement("img");
-      img.className = "card-thumb";
-      img.loading = "lazy";
-      img.src = firstImage(item);
-      img.onerror = () => { img.src = "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=60&auto=format&fit=crop"; };
+        function stripHtml(html){
+              const tmp = document.createElement("div");
+              tmp.innerHTML = html || "";
+              return tmp.textContent || tmp.innerText || "";
+        }
 
-      const body = document.createElement("div");
-      body.className = "card-body";
-      body.innerHTML = `
-                <span class="cat-pill">${cat.label}</span>
-                <div class="card-title">${item.title}</div>
-                <div class="card-desc">${stripHtml(item.description).slice(0,160)}</div>
-                <div class="card-meta">
-                  <span class="src">${(item.author || "BBC News")}</span>
-                  <span>${timeAgo(item.pubDate)}</span>
-                </div>
-              `;
-      card.appendChild(img);
-      card.appendChild(body);
-      gridEl.appendChild(card);
-});
-}
+        function parseXmlToItems(xmlText){
+              const doc = new DOMParser().parseFromString(xmlText, "text/xml");
+              const nodes = Array.from(doc.querySelectorAll("item"));
+              return nodes.map(node => {
+                      const get = (tag) => { const el = node.querySelector(tag); return el ? el.textContent : ""; };
+                      const thumb = node.getElementsByTagNameNS("*","thumbnail")[0];
+                      return {
+                                title: get("title"),
+                                description: get("description"),
+                                link: get("link"),
+                                pubDate: get("pubDate"),
+                                author: "",
+                                thumbnail: thumb ? thumb.getAttribute("url") : ""
+                      };
+              });
+        }
 
-  async function renderGrid(force){
-    const cat = CATEGORIES.find(c => c.id === activeCat);
-    skeletonGrid(8);
-    updatedLineEl.textContent = "Loading latest headlines…";
-    try{
-      const items = await loadCategory(cat, force);
-      renderCards(cat, items);
-      updatedLineEl.textContent = `Showing ${Math.min(items.length,24)} stories · Last updated ${new Date(cache[cat.id].ts).toLocaleTimeString()}`;
-    }catch(err){
-      gridEl.innerHTML = `<div class="error-box">Couldn't load headlines right now (${err.message}). Click "Refresh now" to retry.</div>`;
-              updatedLineEl.textContent = "Update failed.";
-    }
-  }
+        async function fetchCategory(cat){
+              // Primary: codetabs CORS proxy + client-side XML parsing (returns the full feed, no item cap)
+              try{
+                      const proxyUrl = `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(cat.feed)}`;
+                      const res2 = await fetch(proxyUrl);
+                      if(res2.ok){
+                        const xmlText = await res2.text();
+                                const items = parseXmlToItems(xmlText);
+                                if(items.length) return items;
+                      }
+              }catch(e){ /* fall through to backup */ }
 
-  async function refreshAll(){
-    // force-refresh every category's cache in background, then re-render current
-    await Promise.allSettled(CATEGORIES.map(cat => loadCategory(cat, true)));
-    renderGrid(false);
-  }
+              // Backup: rss2json (client-side CORS friendly, but capped to ~10 items on the free tier)
+              const res = await fetch(API(cat.feed));
+              if(!res.ok) throw new Error("Network error " + res.status);
+              const data = await res.json();
+              if(data.status !== "ok" || !data.items || !data.items.length) throw new Error("Feed error");
+              return data.items;
+        }
 
-  refreshBtn.addEventListener("click", () => renderGrid(true));
+        async function loadCategory(cat, force){
+              const now = Date.now();
+              if(!force && cache[cat.id] && (now - cache[cat.id].ts) < REFRESH_MS){
+                      return cache[cat.id].items;
+              }
+              const items = await fetchCategory(cat);
+              cache[cat.id] = { items, ts: now };
+              return items;
+        }
 
-  renderTabs();
-  renderGrid(true);
-  setInterval(refreshAll, REFRESH_MS);
-})();
-</script>
+        function renderCards(cat, items){
+              gridEl.innerHTML = "";
+              if(!items.length){
+                      gridEl.innerHTML = `<div class="empty">No headlines available right now. Try refreshing.</div>`;
+                      return;
+              }
+              items.forEach(item => {
+                      const card = document.createElement("a");
+                      card.className = "card";
+                      card.href = item.link;
+                      card.target = "_blank";
+                      card.rel = "noopener noreferrer";
+
+                      const img = document.createElement("img");
+                      img.className = "card-thumb";
+                      img.loading = "lazy";
+                      img.src = firstImage(item);
+                      img.onerror = () => { img.src = "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=800&q=60&auto=format&fit=crop"; };
+
+                      const body = document.createElement("div");
+                      body.className = "card-body";
+                      body.innerHTML = `
+                              <span class="cat-pill">${cat.label}</span>
+                                      <div class="card-title">${item.title}</div>
+                                              <div class="card-desc">${stripHtml(item.description).slice(0,160)}</div>
+                                                      <div class="card-meta">
+                                                                <span class="src">${(item.author || "BBC News")}</span>
+                                                                          <span>${timeAgo(item.pubDate)}</span>
+                                                                                  </div>
+                                                                                        `;
+                      card.appendChild(img);
+                      card.appendChild(body);
+                      gridEl.appendChild(card);
+              });
+        }
+
+        async function renderGrid(force){
+              const cat = CATEGORIES.find(c => c.id === activeCat);
+              skeletonGrid(8);
+              updatedLineEl.textContent = "Loading latest headlines…";
+              try{
+                      const items = await loadCategory(cat, force);
+                      renderCards(cat, items);
+                      updatedLineEl.textContent = `Showing ${items.length} stories · Last updated ${new Date(cache[cat.id].ts).toLocaleTimeString()}`;
+              }catch(err){
+                      gridEl.innerHTML = `<div class="error-box">Couldn't load headlines right now (${err.message}). Please check back shortly.</div>`;
+                      updatedLineEl.textContent = "Update failed.";
+              }
+        }
+
+        async function refreshAll(){
+              // force-refresh every category's cache in background, then re-render current
+              await Promise.allSettled(CATEGORIES.map(cat => loadCategory(cat, true)));
+              renderGrid(false);
+        }
+
+        renderTabs();
+        renderGrid(true);
+        setInterval(refreshAll, REFRESH_MS);
+    })();
+  </script>
 
   </body>
-  </html>
-  
+</html>
