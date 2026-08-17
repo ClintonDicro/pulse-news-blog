@@ -78,7 +78,7 @@
       .hero{max-width:1200px;margin:0 auto;padding:56px 24px 28px;}
       .hero h1{
             font-size:clamp(32px,5vw,52px);
-            font-weight:800;letter-spacing:-1.5px;line-height:1.05;
+                font-weight:800;letter-spacing:-1.5px;line-height:1.25;padding-bottom:0.08em;
             background:linear-gradient(120deg,#fff 20%,var(--accent) 55%,var(--accent2) 90%);
             -webkit-background-clip:text;background-clip:text;color:transparent;
       }
@@ -195,16 +195,42 @@
   
   <script>
     (function(){
-        const CATEGORIES = [
-          { id: "top",   label: "Top Stories",  color:"#6d6cff", feed: "http://feeds.bbci.co.uk/news/rss.xml" },
-          { id: "world", label: "World",        color:"#6d6cff", feed: "http://feeds.bbci.co.uk/news/world/rss.xml" },
-          { id: "business", label: "Business",  color:"#28d9c5", feed: "http://feeds.bbci.co.uk/news/business/rss.xml" },
-          { id: "tech",  label: "Technology",   color:"#ff5fa2", feed: "http://feeds.bbci.co.uk/news/technology/rss.xml" },
-          { id: "science", label: "Science",    color:"#28d9c5", feed: "http://feeds.bbci.co.uk/news/science_and_environment/rss.xml" },
-          { id: "health", label: "Health",      color:"#ff5fa2", feed: "http://feeds.bbci.co.uk/news/health/rss.xml" },
-          { id: "entertainment", label: "Entertainment", color:"#6d6cff", feed: "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml" },
-          { id: "sport", label: "Sport",        color:"#28d9c5", feed: "http://feeds.bbci.co.uk/sport/rss.xml" },
-            ];
+const CATEGORIES = [
+  { id: "top", label: "Top Stories", color:"#6d6cff", feeds: [
+    { source: "BBC News", url: "http://feeds.bbci.co.uk/news/rss.xml" },
+    { source: "Al Jazeera", url: "https://www.aljazeera.com/xml/rss/all.xml" },
+    { source: "The Guardian", url: "https://www.theguardian.com/international/rss" }
+            ]},
+  { id: "world", label: "World", color:"#6d6cff", feeds: [
+    { source: "BBC News", url: "http://feeds.bbci.co.uk/news/world/rss.xml" },
+    { source: "Al Jazeera", url: "https://www.aljazeera.com/xml/rss/all.xml" },
+    { source: "The Guardian", url: "https://www.theguardian.com/world/rss" }
+            ]},
+  { id: "business", label: "Business", color:"#28d9c5", feeds: [
+    { source: "BBC News", url: "http://feeds.bbci.co.uk/news/business/rss.xml" },
+    { source: "The Guardian", url: "https://www.theguardian.com/business/rss" }
+            ]},
+  { id: "tech", label: "Technology", color:"#ff5fa2", feeds: [
+    { source: "BBC News", url: "http://feeds.bbci.co.uk/news/technology/rss.xml" },
+    { source: "The Guardian", url: "https://www.theguardian.com/technology/rss" }
+            ]},
+  { id: "science", label: "Science", color:"#28d9c5", feeds: [
+    { source: "BBC News", url: "http://feeds.bbci.co.uk/news/science_and_environment/rss.xml" },
+    { source: "The Guardian", url: "https://www.theguardian.com/science/rss" }
+            ]},
+  { id: "health", label: "Health", color:"#ff5fa2", feeds: [
+    { source: "BBC News", url: "http://feeds.bbci.co.uk/news/health/rss.xml" },
+    { source: "The Guardian", url: "https://www.theguardian.com/society/health/rss" }
+            ]},
+  { id: "entertainment", label: "Entertainment", color:"#6d6cff", feeds: [
+    { source: "BBC News", url: "http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml" },
+    { source: "The Guardian", url: "https://www.theguardian.com/culture/rss" }
+            ]},
+  { id: "sport", label: "Sport", color:"#28d9c5", feeds: [
+    { source: "BBC News", url: "http://feeds.bbci.co.uk/sport/rss.xml" },
+    { source: "The Guardian", url: "https://www.theguardian.com/sport/rss" }
+            ]},
+        ];
 
         const API = (feedUrl) => `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
         const REFRESH_MS = 5 * 60 * 1000; // 5 minutes
@@ -279,32 +305,41 @@
               });
         }
 
-async function fetchCategory(cat){
-      // Try a chain of free CORS proxies (each returns the full feed, no item cap),
-      // falling back to rss2json (capped to ~10 items) only if all proxies fail.
-      const proxies = [
-              `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(cat.feed)}`,
-              `https://api.allorigins.win/raw?url=${encodeURIComponent(cat.feed)}`,
-              `https://corsproxy.io/?url=${encodeURIComponent(cat.feed)}`
-            ];
-      for(const proxyUrl of proxies){
-              try{
-                        const res = await fetch(proxyUrl);
-                        if(res.ok){
-                                    const xmlText = await res.text();
-                                    const items = parseXmlToItems(xmlText);
-                                    if(items.length) return items;
-                        }
-              }catch(e){ /* try next proxy */ }
-      }
+async function fetchFeedItems(feedUrl){
+          const proxies = [
+                      `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(feedUrl)}`,
+                      `https://api.allorigins.win/raw?url=${encodeURIComponent(feedUrl)}`,
+                      `https://corsproxy.io/?url=${encodeURIComponent(feedUrl)}`
+                    ];
+          for(const proxyUrl of proxies){
+                      try{
+                                    const res = await fetch(proxyUrl);
+                                    if(res.ok){
+                                                    const xmlText = await res.text();
+                                                    const items = parseXmlToItems(xmlText);
+                                                    if(items.length) return items;
+                                    }
+                      }catch(e){ /* try next proxy */ }
+          }
 
-      // Final backup: rss2json (client-side CORS friendly, but capped to ~10 items on the free tier)
-      const res = await fetch(API(cat.feed));
-      if(!res.ok) throw new Error("Network error " + res.status);
-      const data = await res.json();
-      if(data.status !== "ok" || !data.items || !data.items.length) throw new Error("Feed error");
-      return data.items;
+          const res = await fetch(API(feedUrl));
+          if(!res.ok) throw new Error("Network error " + res.status);
+          const data = await res.json();
+          if(data.status !== "ok" || !data.items || !data.items.length) throw new Error("Feed error");
+          return data.items;
 }
+
+            async function fetchCategory(cat){
+                      const results = await Promise.allSettled(cat.feeds.map(async feed => {
+                                  const items = await fetchFeedItems(feed.url);
+                                  return items.map(item => ({ ...item, author: feed.source }));
+                      }));
+                      let merged = [];
+                      results.forEach(r => { if(r.status === "fulfilled") merged = merged.concat(r.value); });
+                      merged.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+                      if(!merged.length) throw new Error("All sources unavailable");
+                      return merged;
+            }
 
         async function loadCategory(cat, force){
               const now = Date.now();
@@ -342,7 +377,7 @@ async function fetchCategory(cat){
                                       <div class="card-title">${item.title}</div>
                                               <div class="card-desc">${stripHtml(item.description).slice(0,160)}</div>
                                                       <div class="card-meta">
-                                                                <span class="src">${(item.author || "BBC News")}</span>
+                                                                <span class="src">${(item.author || "News")}</span>
                                                                           <span>${timeAgo(item.pubDate)}</span>
                                                                                   </div>
                                                                                         `;
